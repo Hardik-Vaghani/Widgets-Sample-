@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.widget.RemoteViews
+import androidx.appcompat.app.AppCompatActivity
 
 class NewAppWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -30,11 +32,14 @@ internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManage
     val intent = Intent(context,MainActivity::class.java)
     val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
+    val prefs : SharedPreferences = context.getSharedPreferences(SHARED_PRES, AppCompatActivity.MODE_PRIVATE)
+    val buttonText = prefs.getString(KEY_BUTTON_TEXT + appWidgetId, "Press me!")
 
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.new_app_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
     views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent)
+    views.setTextViewText(R.id.appwidget_text, buttonText)
+//    views.setTextViewText(R.id.aappwidget_text, widgetText)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
