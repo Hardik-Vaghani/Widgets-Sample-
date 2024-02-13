@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:hint="Button text"
         android:layout_margin="16dp"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/app_compat_button"
         android:layout_width="wrap_content"

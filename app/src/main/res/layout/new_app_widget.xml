@@ -3,24 +3,28 @@
     style="@style/Widget.WidgetsSemple.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.WidgetsSemple.AppWidgetContainer">
+    android:theme="@style/Theme.WidgetsSemple.AppWidgetContainer"
+    tools:ignore="HardcodedText">
+
+    <!--        style="@style/Widget.WidgetsSemple.AppWidget.InnerView"-->
 
     <TextView
         android:id="@+id/appwidget_text"
-        style="@style/Widget.WidgetsSemple.AppWidget.InnerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_button"
         android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
+        android:background="@color/white"
         android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:text="appwidget_text"
+        android:textStyle="bold|italic"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <ListView
-        android:layout_below="@id/appwidget_text"
-        android:id="@+id/appwidget_listView"
-        android:layout_width="match_parent"
-        tools:listitem="@layout/new_app_widget_item"
-        android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/appwidget_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Press me" />
 </RelativeLayout>

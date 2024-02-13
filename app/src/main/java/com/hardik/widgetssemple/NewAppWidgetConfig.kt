@@ -59,8 +59,8 @@ class NewAppWidgetConfig : AppCompatActivity() {
         var buttonText: String = editTextButton.text.toString()
 
         val views : RemoteViews = RemoteViews(this.packageName,R.layout.new_app_widget)
-        views.setOnClickPendingIntent(R.id.appwidget_text,pendingIntent)
-        views.setCharSequence(R.id.appwidget_text,"setText", buttonText)
+        views.setOnClickPendingIntent(R.id.appwidget_button,pendingIntent)
+        views.setCharSequence(R.id.appwidget_button,"setText", buttonText)
 //        views.setInt(R.id.appwidget_text,"setBackgroundColor",Color.RED)
 //        views.setBoolean(R.id.appwidget_text,"setEnabled",false)
 
@@ -71,7 +71,7 @@ class NewAppWidgetConfig : AppCompatActivity() {
         editor.putString(KEY_BUTTON_TEXT + appWidgetId, buttonText)
         editor.apply()
 
-        val resultValue: Intent = Intent()
+        val resultValue:Intent = Intent()
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
         finish()
