@@ -1,30 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.WidgetsSemple.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:theme="@style/Theme.WidgetsSemple.AppWidgetContainer"
     tools:ignore="HardcodedText">
-
     <!--        style="@style/Widget.WidgetsSemple.AppWidget.InnerView"-->
 
     <TextView
         android:id="@+id/appwidget_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/appwidget_button"
-        android:layout_centerHorizontal="true"
         android:background="@color/white"
         android:contentDescription="@string/appwidget_text"
         android:text="appwidget_text"
-        android:textStyle="bold|italic"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:textStyle="bold|italic" />
 
     <Button
         android:id="@+id/appwidget_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:text="Press me" />
-</RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <StackView
+            android:id="@+id/appwidget_stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:loopViews="true" />
+
+        <TextView
+            android:id="@+id/appwidget_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:text="Empty"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+</LinearLayout>

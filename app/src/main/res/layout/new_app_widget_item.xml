@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="8dip"
-    android:paddingTop="1dip"
-    android:paddingEnd="8dip"
-    android:paddingBottom="1dip">
-
-<!--    <ImageView-->
-<!--        android:id="@+id/icon"-->
-<!--        android:layout_width="24dip"-->
-<!--        android:layout_height="24dip" />-->
-
-    <TextView
-        android:id="@android:id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
-<!--        android:paddingStart="?android:attr/listPreferredItemPaddingStart" />-->
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/gradient"
+    android:text="Item"
+    android:textColor="@color/white"
+    android:textStyle="bold"
+    android:textSize="20sp"
+    android:gravity="center"
+    android:id="@+id/appwidget_tv_item"
+    android:layout_width="200dp"
+    android:layout_height="200dp"/>

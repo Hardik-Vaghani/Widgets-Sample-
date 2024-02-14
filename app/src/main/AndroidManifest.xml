@@ -13,15 +13,18 @@
         android:theme="@style/Theme.WidgetsSemple"
         tools:targetApi="31">
         <activity
-            android:name=".NewAppWidgetConfig"
-            android:exported="false" >
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name=".NewAppWidget"
+            android:name=".NewAppWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -33,15 +36,15 @@
         </receiver>
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
+            android:name=".NewAppWidgetConfig"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+
+        <service android:name=".AppWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>
