@@ -1,5 +1,7 @@
 package com.hardik.widgetssemple;
 
+import static com.hardik.widgetssemple.NewAppWidgetProvider.ACTION_REFRESH;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -44,20 +46,28 @@ public class NewAppWidgetConfig extends AppCompatActivity {
     public void confirmConfiguration(View view) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        // clicking on the button intent(first time)
+        Intent buttonIntent = new Intent(this, MainActivity.class);
+        PendingIntent buttonPendingIntent = PendingIntent.getActivity(this, 0, buttonIntent, PendingIntent.FLAG_IMMUTABLE);
 
         String buttonText = editTextButton.getText().toString();
 
+        // adapter on the stackView intent (first time)
         Intent serviceIntent = new Intent(this,AppWidgetService.class);
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
+        // stackView template clicking intent (first time)
+        Intent clickIntent = new Intent(this, NewAppWidgetProvider.class);
+        clickIntent.setAction(ACTION_REFRESH);
+        PendingIntent clickPendingIntent = PendingIntent.getBroadcast(this, 0, clickIntent, PendingIntent.FLAG_IMMUTABLE);
+
         RemoteViews views = new RemoteViews(this.getPackageName(),R.layout.new_app_widget);
-        views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent);
+        views.setOnClickPendingIntent(R.id.appwidget_button, buttonPendingIntent);
         views.setCharSequence(R.id.appwidget_button, "setText",buttonText);
         views.setRemoteAdapter(R.id.appwidget_stack_view, serviceIntent);
         views.setEmptyView(R.id.appwidget_stack_view, R.id.appwidget_empty_view);
+        views.setPendingIntentTemplate(R.id.appwidget_stack_view, clickPendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
 

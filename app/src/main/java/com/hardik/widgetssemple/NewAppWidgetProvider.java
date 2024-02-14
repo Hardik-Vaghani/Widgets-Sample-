@@ -13,31 +13,42 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class NewAppWidgetProvider extends AppWidgetProvider {
+    public static final String ACTION_REFRESH = "actionRefresh";
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,intent,PendingIntent.FLAG_IMMUTABLE);
+            // clicking on the button intent
+            Intent buttonIntent = new Intent(context, MainActivity.class);
+            PendingIntent buttonPendingIntent = PendingIntent.getActivity(context, 0,buttonIntent,PendingIntent.FLAG_IMMUTABLE);
 
             SharedPreferences prefs = context.getSharedPreferences(SHARED_PRES, Context.MODE_PRIVATE);
             String buttonText = prefs.getString(KEY_BUTTON_TEXT + appWidgetId,"Press me");
 
+            // adapter on the stackView intent
             Intent serviceIntent = new Intent(context,AppWidgetService.class);
             serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
+            // stackView template clicking intent
+            Intent clickIntent = new Intent(context, NewAppWidgetProvider.class);
+            clickIntent.setAction(ACTION_REFRESH);
+            PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_IMMUTABLE);
+
             RemoteViews views = new RemoteViews(context.getPackageName(),R.layout.new_app_widget);
-            views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent);
+            views.setOnClickPendingIntent(R.id.appwidget_button, buttonPendingIntent);
             views.setCharSequence(R.id.appwidget_button, "setText" ,buttonText);
             views.setRemoteAdapter(R.id.appwidget_stack_view, serviceIntent);
             views.setEmptyView(R.id.appwidget_stack_view, R.id.appwidget_empty_view);
+            views.setPendingIntentTemplate(R.id.appwidget_stack_view, clickPendingIntent);
 
             Bundle appWidgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
             reSizeWidget(appWidgetOptions,views);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.appwidget_stack_view);// update our collection view
         }
     }
 
@@ -61,5 +72,31 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
             views.setViewVisibility(R.id.appwidget_text, View.GONE);
             views.setViewVisibility(R.id.appwidget_button, View.GONE);
         }
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        Toast.makeText(context,"onEnabled",Toast.LENGTH_SHORT).show();
+        super.onEnabled(context);
+    }
+    @Override
+    public void onDisabled(Context context) {
+        Toast.makeText(context,"onDisabled",Toast.LENGTH_SHORT).show();
+        super.onDisabled(context);
+    }
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        Toast.makeText(context,"onDeleted",Toast.LENGTH_SHORT).show();
+        super.onDeleted(context, appWidgetIds);
+    }
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (ACTION_REFRESH.equals(intent.getAction())) {
+            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
+        Toast.makeText(context,"Clicked position: "+appWidgetId,Toast.LENGTH_SHORT).show();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.appwidget_stack_view);// update our collection view
+        }
+        super.onReceive(context, intent);
     }
 }
